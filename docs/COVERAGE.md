@@ -1,6 +1,6 @@
 # Live data coverage
 
-Checked 2026-10-02T03:11:14.492Z. Snapshot: `11e-2026-10-02-032e96cc04ba`. Edition: 11th. Points version: MFM 1.5.
+Checked 2026-10-02T23:30:56.381Z. Snapshot: `11e-2026-10-02-ed0bb9d42646`. Edition: 11th. Points version: MFM 1.5.
 
 The live refresh imported **126 unit entries**, including **75 entries on the Black Templars official page**, **18 detachments**, and **483 searchable rule/reference records**. 123 unit entries have an exact community profile match. These counts do not establish complete rules coverage.
 
@@ -9,12 +9,12 @@ The live refresh imported **126 unit entries**, including **75 entries on the Bl
 | Source ID                       | Authority | Version                                  | Link                                                                                                                                                       |
 | ------------------------------- | --------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | mfm-bt                          | official  | 1.5                                      | [source](https://mfm.warhammer-community.com/en/black-templars)                                                                                            |
-| bsdata-core                     | community | 8fb1191701cc596c817d5d1ea96f90009f37f11d | [source](https://raw.githubusercontent.com/BSData/wh40k-11e/8fb1191701cc596c817d5d1ea96f90009f37f11d/Warhammer%2040%2C000.json)                            |
+| bsdata-core                     | community | cc1830fbfead059f8059ed6c7f8e73cd4c390908 | [source](https://raw.githubusercontent.com/BSData/wh40k-11e/cc1830fbfead059f8059ed6c7f8e73cd4c390908/Warhammer%2040%2C000.json)                            |
 | mfm-transcription               | community | 1.5                                      | [source](https://raw.githubusercontent.com/BSData/wh40k-11e-mfm/main/data/meta.yaml)                                                                       |
-| bsdata-black-templars           | community | 8fb1191701cc596c817d5d1ea96f90009f37f11d | [source](https://raw.githubusercontent.com/BSData/wh40k-11e/8fb1191701cc596c817d5d1ea96f90009f37f11d/Imperium%20-%20Black%20Templars.json)                 |
-| bsdata-space-marines            | community | 8fb1191701cc596c817d5d1ea96f90009f37f11d | [source](https://raw.githubusercontent.com/BSData/wh40k-11e/8fb1191701cc596c817d5d1ea96f90009f37f11d/Imperium%20-%20Space%20Marines.json)                  |
-| bsdata-agents-of-the-imperium   | community | 8fb1191701cc596c817d5d1ea96f90009f37f11d | [source](https://raw.githubusercontent.com/BSData/wh40k-11e/8fb1191701cc596c817d5d1ea96f90009f37f11d/Imperium%20-%20Agents%20of%20the%20Imperium.json)     |
-| bsdata-imperial-knights-library | community | 8fb1191701cc596c817d5d1ea96f90009f37f11d | [source](https://raw.githubusercontent.com/BSData/wh40k-11e/8fb1191701cc596c817d5d1ea96f90009f37f11d/Imperium%20-%20Imperial%20Knights%20-%20Library.json) |
+| bsdata-black-templars           | community | cc1830fbfead059f8059ed6c7f8e73cd4c390908 | [source](https://raw.githubusercontent.com/BSData/wh40k-11e/cc1830fbfead059f8059ed6c7f8e73cd4c390908/Imperium%20-%20Black%20Templars.json)                 |
+| bsdata-space-marines            | community | cc1830fbfead059f8059ed6c7f8e73cd4c390908 | [source](https://raw.githubusercontent.com/BSData/wh40k-11e/cc1830fbfead059f8059ed6c7f8e73cd4c390908/Imperium%20-%20Space%20Marines.json)                  |
+| bsdata-agents-of-the-imperium   | community | cc1830fbfead059f8059ed6c7f8e73cd4c390908 | [source](https://raw.githubusercontent.com/BSData/wh40k-11e/cc1830fbfead059f8059ed6c7f8e73cd4c390908/Imperium%20-%20Agents%20of%20the%20Imperium.json)     |
+| bsdata-imperial-knights-library | community | cc1830fbfead059f8059ed6c7f8e73cd4c390908 | [source](https://raw.githubusercontent.com/BSData/wh40k-11e/cc1830fbfead059f8059ed6c7f8e73cd4c390908/Imperium%20-%20Imperial%20Knights%20-%20Library.json) |
 | mfm-imperial-agents             | official  | 1.5                                      | [source](https://mfm.warhammer-community.com/en/imperial-agents)                                                                                           |
 | mfm-imperial-knights            | official  | 1.5                                      | [source](https://mfm.warhammer-community.com/en/imperial-knights)                                                                                          |
 
@@ -45,3 +45,20 @@ The public feed returned 10 recent article leads. 10 fetched article pages retur
 ## Release boundary
 
 This is a working service with partial rule and research coverage. Before tournament reliance, complete the missing source review, encode remaining conditional checks, and verify the specific event rules. The server intentionally reports incomplete until that work is substantiated.
+
+
+## October 2 live refresh
+
+The refreshed snapshot is included in `snapshots/11e-2026-10-02-ed0bb9d42646.json`. It contains sourced public rules/points references and retains partial coverage warnings. It does not contain credentials, owner configuration, tournament evidence or the SQLite authentication database.
+
+The official Black Templars page remains labeled MFM 1.5, but 37 unit entries have different pricing from the preceding saved snapshot. Initial-tier examples: five Intercessors 95 to 85, five Heavy Intercessors 110 to 115, three Bladeguard Veterans 85 to 90, and Land Raider Crusader 245 to 230. Some later requisition tiers also changed; use the complete pricing entries in the snapshot.
+
+Schema validation and both 1,000- and 2,000-point live-list smoke checks passed; the lists still return incomplete due to known rule gaps.
+
+To activate this saved snapshot locally after building, run:
+
+```sh
+node dist/src/admin.js import-snapshot snapshots/11e-2026-10-02-ed0bb9d42646.json
+```
+
+Use the same DATA_PATH setting as your service. To fetch newer data instead, run `node dist/src/admin.js refresh`. Existing active data changes only when one of these administrative commands succeeds; pulling the repository alone does not replace a running service's database.

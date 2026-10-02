@@ -6,6 +6,8 @@ A personal, self-hosted MCP service for ChatGPT and Claude. It supplies sourced 
 
 Start with [Deployment](docs/DEPLOYMENT.md), then use [Assistant instructions](docs/ASSISTANT-INSTRUCTIONS.md). See the [coverage report](docs/COVERAGE.md) and [validation report](docs/VALIDATION.md) for what is verified and what remains.
 
+The [October 2 live snapshot](snapshots/11e-2026-10-02-ed0bb9d42646.json) is included for import. See the [coverage report](docs/COVERAGE.md#october-2-live-refresh) for activation instructions and remaining gaps.
+
 ## Browser calculator
 
 For the faction-neutral Mathhammer calculator, run `npm ci` then `npm run calculator` and open http://127.0.0.1:8790/calculator/. No account or API key needed. See [PC and Docker setup](docs/CALCULATOR.md) for mixed units, weapon abilities and limitations.
