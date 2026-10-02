@@ -1,0 +1,25 @@
+services:
+  toolkit:
+    build: .
+    image: black-templars-toolkit:local
+    restart: unless-stopped
+    init: true
+    env_file: .env
+    environment:
+      DATA_PATH: /app/data/toolkit.sqlite
+    ports:
+      - "127.0.0.1:8787:8787"
+    volumes:
+      - toolkit-data:/app/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 768m
+    cpus: 2
+    stop_grace_period: 15s
+volumes:
+  toolkit-data:

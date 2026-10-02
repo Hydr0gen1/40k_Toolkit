@@ -1,0 +1,39 @@
+{
+  "name": "black-templars-ai-toolkit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.14.0"
+  },
+  "scripts": {
+    "build": "tsc && node scripts/build-calculator.mjs",
+    "precalculator": "npm run build",
+    "calculator": "node dist/src/calculator-server.js",
+    "start": "node dist/src/main.js",
+    "predev": "npm run build",
+    "dev": "node --watch dist/src/main.js",
+    "pretest": "npm run build",
+    "test": "node --test dist/test/*.test.js",
+    "check": "tsc --noEmit",
+    "preadmin": "npm run build",
+    "admin": "node dist/src/admin.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "cheerio": "^1.2.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "node-html-markdown": "^2.0.0",
+    "yaml": "^2.8.2",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.0.0",
+    "esbuild": "^0.28.2",
+    "prettier": "^3.9.9",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,26 @@
+# Standalone calculator. No .env, owner password, database or AI connection required.
+services:
+  calculator:
+    build: .
+    image: black-templars-toolkit:local
+    command: ["node", "dist/src/calculator-server.js"]
+    environment:
+      CALCULATOR_HOST: 0.0.0.0
+      CALCULATOR_PORT: 8790
+    ports:
+      - "127.0.0.1:8790:8790"
+    restart: unless-stopped
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8790/calculator/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s

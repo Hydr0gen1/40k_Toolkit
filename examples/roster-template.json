@@ -1,0 +1,17 @@
+{
+  "name": "Replace all placeholders before validation",
+  "snapshotId": "COPY_FROM_GET_DATA_STATUS",
+  "pointsLimit": 2000,
+  "faction": "Black Templars",
+  "detachments": ["EXACT_DETACHMENT_NAME"],
+  "units": [
+    {
+      "id": "leader-1",
+      "unit": "EXACT_UNIT_ID",
+      "models": 1,
+      "equipment": [],
+      "enhancements": [],
+      "warlord": true
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+<!doctype html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <title>Mathhammer Calculator</title>
+
+    <link rel="stylesheet" href="./style.css" />
+
+    <script type="module" src="./app.js"></script>
+
+  </head>
+
+  <body>
+
+    <header class="masthead">
+
+      <a class="brand" href="./"
+
+        ><span class="sigil" aria-hidden="true">&#9860;</span> MATHHAMMER
+
+        <span class="brand-sub">TOOLKIT</span></a
+
+      ><span class="local-tag"><i></i> Calculated on your device</span>
+
+    </header>
+
+    <main>
+
+      <section class="intro">
+
+        <div>
+
+          <p class="eyebrow">THE ODDS, BEFORE THE DICE</p>
+
+          <h1>Mathhammer<span>.</span></h1>
+
+          <p class="lede">
+
+            Build an attack. Pick a target. See what gets through.
+
+          </p>
+
+        </div>
+
+        <div class="intro-note">
+
+          Custom values · Editable presets<br />No accounts or rules downloads
+
+          needed
+
+        </div>
+
+      </section>
+
+      <p class="preset-note">
+
+        Presets are illustrative benchmarks, not current official datasheets.
+
+        Check your unit’s values and apply only eligible abilities.
+
+      </p>
+
+      <form id="calculator">
+
+        <div class="workspace">
+
+          <section class="panel attack-panel">
+
+            <div class="section-heading">
+
+              <div>
+
+                <span class="step">01</span>
+
+                <h2>Your attack</h2>
+
+              </div>
+
+              <button type="button" class="quiet-button" id="add-weapon">
+
+                + Add weapon
+
+              </button>
+
+            </div>
+
+            <p class="helper">
+
+              Attacks are <strong>per model</strong>. Add separate profiles for
+
+              different weapons or model characteristics, such as a sergeant's weapon. Profiles resolve from top to bottom.
+
+            </p>
+
+            <div id="weapons"></div>
+
+          </section>
+
+          <section class="panel">
+
+            <div class="section-heading">
+
+              <div>
+
+                <span class="step">02</span>
+
+                <h2>The target</h2>
+
+              </div>
+
+            </div>
+
+            <button type="button" class="quiet-button" id="add-target">+ Add model group</button>
+
+            <p class="helper">Add groups for different wounds, saves or Toughness. Allocate damage from top to bottom, finishing each model first. Use Move up to change the order.</p>
+
+            <div id="target-groups"></div>
+
+            <label>Wound-test Toughness<select id="toughness-mode"><option value="allocated">Use each allocated model's Toughness</option><option value="fixed">Use one fixed unit Toughness</option></select></label>
+
+            <label id="unit-toughness-label" hidden>Unit Toughness<input id="unit-toughness" type="number" min="1" max="30" value="4" /></label>
+
+            <p class="helper">For attached units, check which Toughness your rules require. Fixed Toughness stays fixed for the entire calculation; automatic bodyguard-to-leader transitions are not modeled.</p>
+
+          </section>
+
+        </div>
+
+        <section class="panel"><h2>Direct mortal wounds</h2><p class="helper">A separate wound pool, such as an ability's resolved mortal wounds. These spill between models and allow eligible Feel No Pain. Do not also count them as weapon damage.</p><div class="field-grid"><label>Mortal wounds (number or dice)<input id="mortal-wounds" value="0" maxlength="12" required /></label><label>Apply<select id="mortal-timing"><option value="after">After weapon attacks</option><option value="before">Before weapon attacks</option></select></label></div></section>
+
+        <div class="run-bar">
+
+          <p class="helper">Direct probabilities and expected values. No simulated rolls.</p>
+          <button id="calculate" class="primary-button" type="submit">
+
+            Calculate odds <span aria-hidden="true">↗</span>
+
+          </button>
+
+        </div>
+
+        <div id="error" class="error" role="alert" hidden></div>
+
+      </form>
+
+      <section id="results" class="results" aria-live="polite">
+
+        <div class="empty">
+
+          <span aria-hidden="true">⚄</span>
+
+          <h2>Your next roll, with perspective.</h2>
+
+          <p>Choose your profiles above, then calculate the odds.</p>
+
+        </div>
+
+      </section>
+
+      <section class="method">
+
+        <details>
+
+          <summary>How to read these results</summary>
+
+          <p>
+
+            This calculates the probability of each possible damage outcome using
+            your profiles and allocation order. Expected values are weighted
+            averages of those outcomes. There is no random sampling or trial
+            count; results are deterministic, subject to normal numerical rounding.
+            Outcome ranges describe dice variability, not uncertainty in the calculation.
+          </p>
+
+          <p>
+
+            Weapon profiles resolve in the order shown. This models a single
+
+            attack sequence against your ordered defensive groups, not movement,
+
+            positioning or a full game. Save bonus is explicit; cover
+
+            eligibility is not inferred. Hazardous self-damage, precision
+
+            allocation and other unlisted rules are not
+
+            modeled.
+
+          </p>
+
+          <p>
+
+            Anti-X can be represented by changing the critical wound threshold
+
+            once you have checked the target keyword. Twin-linked can be
+
+            represented by rerolling failed wound rolls. Check edition-specific
+
+            damage interactions before using an ability.
+
+          </p>
+
+        </details>
+
+      </section>
+
+      <footer>
+
+        MATHHAMMER TOOLKIT
+
+        <span>Unofficial. Independent of Games Workshop.</span>
+
+      </footer>
+
+    </main>
+
+  </body>
+
+</html>
+

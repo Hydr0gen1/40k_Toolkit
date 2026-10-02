@@ -1,0 +1,23 @@
+{
+  "label": "Synthetic benchmark: one attack against one model",
+  "trials": 20000,
+  "seed": 40,
+  "defender": { "models": 1, "wounds": 1, "toughness": 4, "save": 7 },
+  "weapons": [
+    {
+      "name": "Synthetic weapon",
+      "models": 1,
+      "attacks": 1,
+      "skill": 4,
+      "strength": 4,
+      "ap": 0,
+      "damage": 1,
+      "sourceReferences": [
+        "Synthetic probability example, not a real datasheet"
+      ]
+    }
+  ],
+  "assumptions": [
+    "No eligible save; hit and wound each succeed on 4+. Exact destruction probability is 25%."
+  ]
+}
