@@ -1,9 +1,7 @@
 <!doctype html>
 
 <html lang="en">
-
   <head>
-
     <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -13,214 +11,420 @@
     <link rel="stylesheet" href="./style.css" />
 
     <script type="module" src="./app.js"></script>
-
   </head>
 
   <body>
-
     <header class="masthead">
-
       <a class="brand" href="./"
-
         ><span class="sigil" aria-hidden="true">&#9860;</span> MATHHAMMER
 
         <span class="brand-sub">TOOLKIT</span></a
-
       ><span class="local-tag"><i></i> Calculated on your device</span>
-
     </header>
 
     <main>
-
       <section class="intro">
-
         <div>
+          <p class="eyebrow">Warhammer 40,000</p>
 
-          <p class="eyebrow">THE ODDS, BEFORE THE DICE</p>
-
-          <h1>Mathhammer<span>.</span></h1>
+          <h1>Mathhammer</h1>
 
           <p class="lede">
-
-            Build an attack. Pick a target. See what gets through.
-
+            Choose a unit or enter its weapons to see how much damage it can do.
           </p>
-
         </div>
-
-        <div class="intro-note">
-
-          Custom values · Editable presets<br />No accounts or rules downloads
-
-          needed
-
-        </div>
-
       </section>
 
       <p class="preset-note">
-
-        Presets are illustrative benchmarks, not current official datasheets.
-
-        Check your unit’s values and apply only eligible abilities.
-
+        Presets use BSData from
+        <strong>2 October 2026</strong>. Space Marine updates are still pending,
+        so some stats may be out of date.
+        <a
+          href="https://github.com/BSData/wh40k-11e/tree/cc1830fbfead059f8059ed6c7f8e73cd4c390908"
+          target="_blank"
+          rel="noopener"
+          >View source</a
+        >. <span id="library-count"></span>
       </p>
 
+      <details class="coverage">
+        <summary>Units and rules included</summary>
+        <div class="helper" id="coverage-overview"></div>
+      </details>
       <form id="calculator">
-
-        <div class="workspace">
-
-          <section class="panel attack-panel">
-
+        <div class="setup-grid">
+          <section class="panel setup-panel">
             <div class="section-heading">
-
+              <h2>Attacker</h2>
+              <span class="section-tag">Unit setup</span>
+            </div>
+            <div class="unit-picker">
+              <label
+                >Search units<input
+                  id="attack-search"
+                  type="search"
+                  placeholder="Try Crusaders or Ballistus" /></label
+              ><label
+                >Base unit or standalone model<select id="attack-unit"></select
+              ></label>
+              <div id="attack-options" hidden>
+                <div class="field-grid">
+                  <label>Unit size<select id="attack-size"></select></label
+                  ><label
+                    >Attack phase<select id="unit-phase">
+                      <option value="melee">Melee</option>
+                      <option value="ranged">Shooting</option>
+                    </select></label
+                  >
+                </div>
+                <details id="attack-conditions">
+                  <summary>Starting loadout and bonuses</summary>
+                  <label
+                    >Starting loadout<select id="unit-loadout"></select
+                  ></label>
+                  <label class="checkbox"
+                    ><input type="checkbox" id="unit-half-range" />Within half
+                    range (Rapid Fire and Melta)</label
+                  >
+                  <label class="checkbox" id="ballistus-condition" hidden
+                    ><input type="checkbox" id="ballistus-strike" />Target at
+                    half-strength or above (reroll failed hits)</label
+                  >
+                  <label class="checkbox" id="bladeguard-condition" hidden
+                    ><input type="checkbox" id="bladeguard-offence" />Offensive
+                    Bladeguard stance (+1 to melee hit rolls)</label
+                  >
+                  <label class="checkbox" id="champion-condition" hidden
+                    ><input type="checkbox" id="champion-miracle" />Use
+                    Sigismund’s Heir (once per battle; Character in Engagement
+                    Range)</label
+                  >
+                  <label class="checkbox" id="stationary-condition" hidden
+                    ><input type="checkbox" id="unit-stationary" />Stationary
+                    (Heavy weapons get +1 to hit)</label
+                  >
+                </details>
+              </div>
+              <details id="attack-library-abilities" hidden>
+                <summary>Unit rules</summary>
+                <p class="helper" id="attack-ability-note"></p>
+              </details>
+              <details id="attack-loadout-notes" hidden>
+                <summary>Loadout notes</summary>
+                <p class="helper" id="attack-unit-note"></p>
+              </details>
+            </div>
+          </section>
+          <section class="panel setup-panel">
+            <div class="section-heading">
+              <h2>Target</h2>
+              <span class="section-tag">Unit setup</span>
+            </div>
+            <div class="unit-picker">
+              <label
+                >Search targets<input
+                  id="target-search"
+                  type="search"
+                  placeholder="Search the unit library" /></label
+              ><label>Target unit<select id="target-unit"></select></label>
+              <div id="target-options" hidden>
+                <div class="field-grid">
+                  <label
+                    >Target unit size<select id="target-size"></select
+                  ></label>
+                  <label
+                    >Incoming attacks<select id="incoming-phase">
+                      <option value="ranged">Shooting</option>
+                      <option value="melee">Melee</option>
+                    </select></label
+                  >
+                </div>
+              </div>
+              <div id="target-variants" hidden>
+                <label>Model stats<select id="target-variant"></select></label>
+                <p class="helper">
+                  Choose the model or wargear you want. Add another group if the
+                  squad has mixed stats. Grimaldus includes his three Servitors.
+                </p>
+              </div>
+              <details id="target-library-abilities" hidden>
+                <summary>Unit rules</summary>
+                <p class="helper" id="target-ability-note"></p>
+              </details>
+              <label class="checkbox" id="restricted-defence-label" hidden
+                ><input type="checkbox" id="restricted-defence" />Use basic
+                defences only. Leave out the unsupported unit rules listed
+                above.</label
+              >
+              <details id="target-loadout-notes">
+                <summary>Target notes</summary>
+                <p class="helper" id="target-unit-note">
+                  Pick a target to load its wounds and saves.
+                </p>
+              </details>
+              <label class="checkbox"
+                ><input type="checkbox" id="target-character" />Target is a
+                Character (for Anti-Character)</label
+              >
+              <details>
+                <summary>Target keywords (for Anti weapons)</summary>
+                <div class="keyword-grid">
+                  <label class="checkbox"
+                    ><input
+                      type="checkbox"
+                      class="target-keyword"
+                      value="vehicle"
+                    />Vehicle</label
+                  ><label class="checkbox"
+                    ><input
+                      type="checkbox"
+                      class="target-keyword"
+                      value="monster"
+                    />Monster</label
+                  ><label class="checkbox"
+                    ><input
+                      type="checkbox"
+                      class="target-keyword"
+                      value="infantry"
+                    />Infantry</label
+                  ><label class="checkbox"
+                    ><input
+                      type="checkbox"
+                      class="target-keyword"
+                      value="fly"
+                    />Fly</label
+                  ><label class="checkbox"
+                    ><input
+                      type="checkbox"
+                      class="target-keyword"
+                      value="psyker"
+                    />Psyker</label
+                  ><label class="checkbox"
+                    ><input
+                      type="checkbox"
+                      class="target-keyword"
+                      value="mounted"
+                    />Mounted</label
+                  ><label class="checkbox"
+                    ><input
+                      type="checkbox"
+                      class="target-keyword"
+                      value="walker"
+                    />Walker</label
+                  >
+                </div>
+              </details>
+            </div>
+          </section>
+        </div>
+        <div class="workspace">
+          <section class="panel attack-panel">
+            <div class="section-heading">
               <div>
-
                 <span class="step">01</span>
 
-                <h2>Your attack</h2>
-
+                <h2>Attack weapons</h2>
               </div>
-
-              <button type="button" class="quiet-button" id="add-weapon">
-
-                + Add weapon
-
-              </button>
-
             </div>
 
             <p class="helper">
-
-              Attacks are <strong>per model</strong>. Add separate profiles for
-
-              different weapons or model characteristics, such as a sergeant's weapon. Profiles resolve from top to bottom.
-
+              Attacks are per model. For vehicles, count weapon copies. Weapons
+              attack from top to bottom.
             </p>
-
+            <p class="helper" id="attack-weapons-note" hidden></p>
             <div id="weapons"></div>
-
+            <div class="weapon-actions">
+              <label id="add-weapon-unit-label" hidden
+                >Add a weapon for<select id="add-weapon-unit"></select
+              ></label>
+              <button type="button" class="quiet-button" id="add-weapon">
+                + Add weapon
+              </button>
+              <button
+                type="button"
+                class="quiet-button"
+                id="reapply-attack"
+                hidden
+              >
+                Reset weapons
+              </button>
+            </div>
           </section>
 
-          <section class="panel">
-
+          <section class="panel defence-panel">
             <div class="section-heading">
-
               <div>
-
                 <span class="step">02</span>
 
-                <h2>The target</h2>
-
+                <h2>Target defences</h2>
               </div>
-
             </div>
 
-            <button type="button" class="quiet-button" id="add-target">+ Add model group</button>
-
-            <p class="helper">Add groups for different wounds, saves or Toughness. Allocate damage from top to bottom, finishing each model first. Use Move up to change the order.</p>
+            <p class="helper">
+              Keep models with different stats in separate groups. Damage goes
+              from top to bottom, finishing one model before moving to the next.
+              Use Move up to change who takes damage first.
+            </p>
 
             <div id="target-groups"></div>
+            <div class="weapon-actions">
+              <button type="button" class="quiet-button" id="add-target">
+                + Add model group</button
+              ><button type="button" class="quiet-button" id="reapply-target">
+                Reset target
+              </button>
+            </div>
 
-            <label>Wound-test Toughness<select id="toughness-mode"><option value="allocated">Use each allocated model's Toughness</option><option value="fixed">Use one fixed unit Toughness</option></select></label>
+            <label
+              >Toughness used for wound rolls<select id="toughness-mode">
+                <option value="allocated">Use the model taking damage</option>
+                <option value="fixed">Use the same Toughness throughout</option>
+              </select></label
+            >
 
-            <label id="unit-toughness-label" hidden>Unit Toughness<input id="unit-toughness" type="number" min="1" max="30" value="4" /></label>
+            <label id="unit-toughness-label" hidden
+              >Unit Toughness<input
+                id="unit-toughness"
+                type="number"
+                min="1"
+                max="30"
+                value="4"
+            /></label>
 
-            <p class="helper">For attached units, check which Toughness your rules require. Fixed Toughness stays fixed for the entire calculation; automatic bodyguard-to-leader transitions are not modeled.</p>
-
+            <p class="helper">
+              For a squad with a leader, check which Toughness the rules call
+              for. A fixed value stays the same even after bodyguards die.
+            </p>
           </section>
-
         </div>
 
-        <section class="panel"><h2>Direct mortal wounds</h2><p class="helper">A separate wound pool, such as an ability's resolved mortal wounds. These spill between models and allow eligible Feel No Pain. Do not also count them as weapon damage.</p><div class="field-grid"><label>Mortal wounds (number or dice)<input id="mortal-wounds" value="0" maxlength="12" required /></label><label>Apply<select id="mortal-timing"><option value="after">After weapon attacks</option><option value="before">Before weapon attacks</option></select></label></div></section>
+        <details class="panel mortal-panel">
+          <summary>Direct mortal wounds</summary>
+          <p class="helper">
+            Add mortal wounds from an ability here. They carry over between
+            models and allow Feel No Pain where it applies. Don’t add them again
+            as weapon damage.
+          </p>
+          <div class="field-grid">
+            <label
+              >Mortal wounds (e.g. 3 or D3)<input
+                id="mortal-wounds"
+                value="0"
+                maxlength="12"
+                required /></label
+            ><label
+              >Apply<select id="mortal-timing">
+                <option value="after">After weapon attacks</option>
+                <option value="before">Before weapon attacks</option>
+              </select></label
+            >
+          </div>
+        </details>
 
         <div class="run-bar">
-
-          <p class="helper">Direct probabilities and expected values. No simulated rolls.</p>
+          <p class="helper">
+            Results come from the dice probabilities. No simulations.
+          </p>
           <button id="calculate" class="primary-button" type="submit">
-
-            Calculate odds <span aria-hidden="true">↗</span>
-
+            Calculate
           </button>
-
         </div>
 
         <div id="error" class="error" role="alert" hidden></div>
-
       </form>
 
       <section id="results" class="results" aria-live="polite">
-
         <div class="empty">
-
           <span aria-hidden="true">⚄</span>
 
-          <h2>Your next roll, with perspective.</h2>
+          <h2>Results</h2>
 
-          <p>Choose your profiles above, then calculate the odds.</p>
-
+          <p>Choose an attacker and target, then click Calculate.</p>
         </div>
-
       </section>
 
       <section class="method">
-
         <details>
-
+          <summary>What the stats and abilities mean</summary>
+          <ul>
+            <li>
+              <strong>BS / WS:</strong> the dice roll needed to hit, before
+              modifiers.
+            </li>
+            <li>
+              <strong>Strength and Toughness:</strong> together, these determine
+              the wound roll.
+            </li>
+            <li>
+              <strong>AP:</strong> makes armour saves harder. Invulnerable saves
+              ignore AP.
+            </li>
+            <li>
+              <strong>Damage:</strong> wounds removed by each unsaved attack.
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <strong>Sustained Hits:</strong> extra hits on a critical hit.
+            </li>
+            <li>
+              <strong>Lethal Hits:</strong> critical hits wound automatically.
+            </li>
+            <li>
+              <strong>Devastating Wounds:</strong> critical wounds bypass saves.
+            </li>
+            <li><strong>Torrent:</strong> hits automatically.</li>
+            <li><strong>Twin-linked:</strong> reroll failed wound rolls.</li>
+            <li>
+              <strong>Blast:</strong> one extra attack for every five starting
+              target models.
+            </li>
+            <li>
+              <strong>Rapid Fire:</strong> extra attacks within half range.
+            </li>
+            <li>
+              <strong>Feel No Pain:</strong> a roll to ignore each wound lost.
+            </li>
+          </ul>
+          <p>Presets fill in supported weapon abilities for you.</p>
+          <p>
+            Use the checkboxes for rules that depend on range or another
+            condition. This calculator doesn’t handle Precision, Hazardous
+            self-damage, movement or legal target checks. Rules left out are
+            listed beside the unit and saved with the result.
+          </p>
+        </details>
+        <details>
           <summary>How to read these results</summary>
 
           <p>
-
-            This calculates the probability of each possible damage outcome using
-            your profiles and allocation order. Expected values are weighted
-            averages of those outcomes. There is no random sampling or trial
-            count; results are deterministic, subject to normal numerical rounding.
-            Outcome ranges describe dice variability, not uncertainty in the calculation.
+            Average damage and kills show what you would expect over many rolls.
+            You’ll get the same result each time for the same inputs: the
+            calculator works out the probabilities directly. The typical damage
+            range runs from the 10th to the 90th percentile, so it shows dice
+            variation rather than an error margin.
           </p>
 
           <p>
-
-            Weapon profiles resolve in the order shown. This models a single
-
-            attack sequence against your ordered defensive groups, not movement,
-
-            positioning or a full game. Save bonus is explicit; cover
-
-            eligibility is not inferred. Hazardous self-damage, precision
-
-            allocation and other unlisted rules are not
-
-            modeled.
-
+            Weapons attack in the order shown, and target groups take damage
+            from top to bottom. The result covers that attack sequence. It
+            doesn’t predict a whole game. Enter any cover bonus yourself; the
+            calculator won’t check whether cover applies.
           </p>
 
           <p>
-
-            Anti-X can be represented by changing the critical wound threshold
-
-            once you have checked the target keyword. Twin-linked can be
-
-            represented by rerolling failed wound rolls. Check edition-specific
-
-            damage interactions before using an ability.
-
+            For a custom Anti weapon, set the critical wound roll after checking
+            the target’s keywords. For Twin-linked, choose failed wound rerolls.
+            Check the rules for your edition when using damage spill.
           </p>
-
         </details>
-
       </section>
 
       <footer>
-
         MATHHAMMER TOOLKIT
 
         <span>Unofficial. Independent of Games Workshop.</span>
-
       </footer>
-
     </main>
-
   </body>
-
 </html>
-
